@@ -28,7 +28,7 @@ const StreamList = () => {
                     value: JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]')
                 });
                 SetListOfStreams(JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]'));
-                console.log(store.getState());
+                //console.log(store.getState());
             }
         }, []
     );
@@ -61,9 +61,7 @@ const StreamList = () => {
                         type: 'ADD_STREAM',
                         value: newStream
                     });
-
-                    // SetListOfStreams([newStream, ...listOfStreams]);
-                    localStorage.setItem('rssStreamsArray', JSON.stringify([newStream, ...listOfStreams]));
+                    localStorage.setItem('rssStreamsArray', JSON.stringify([newStream, ...store.getState().streamlist]));
                     SetNewStream('');
                 }
             )
@@ -90,15 +88,14 @@ const StreamList = () => {
         }
         localStorage.setItem('rssStreamsArray', JSON.stringify(cutListOfStreams));
     };
-    const streams = useSelector(state => state.streams);
-   // console.log(streams);
+
     return (
         <div>
             <h2>List of streams</h2>
             <span>Please, input new rss-stream</span> <input value={newStream} onChange={onInputChange}/>
             <button onClick={handleSubmit}>Add</button>
             <ul className={'list-of-streams'}>
-                {listOfStreams.map((i, index) =>
+                {store.getState().streamlist.map((i, index) =>
                     <Item key={index}>
                         <div>
                             <button onClick={() => removeStream(index)}>del</button>
