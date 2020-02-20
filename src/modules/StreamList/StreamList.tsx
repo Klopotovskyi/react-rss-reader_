@@ -3,6 +3,8 @@ import axios from 'axios';
 import {Item} from '../../components/Item/Item';
 import StreamView from '../StreamView/StreamView';
 import '../StreamList/StreamList.css'
+import {store} from '../../store';
+import {useSelector} from 'react-redux';
 
 
 const StreamList = () => {
@@ -21,7 +23,12 @@ const StreamList = () => {
                 SetListOfStreams(["http://4pda.ru/feed/"]);
                 localStorage.setItem('rssStreamsArray', JSON.stringify(["http://4pda.ru/feed/"]));
             } else {
-                SetListOfStreams(JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]'))
+                store.dispatch({
+                    type: 'ADD_STREAM',
+                    value: JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]')
+                });
+                SetListOfStreams(JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]'));
+                console.log(store.getState());
             }
         }, []
     );
@@ -49,7 +56,13 @@ const StreamList = () => {
         const baseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
         axios.get(`${baseUrl}${newStream}`)
             .then(() => {
-                    SetListOfStreams([newStream, ...listOfStreams]);
+
+                    store.dispatch({
+                        type: 'ADD_STREAM',
+                        value: newStream
+                    });
+
+                    // SetListOfStreams([newStream, ...listOfStreams]);
                     localStorage.setItem('rssStreamsArray', JSON.stringify([newStream, ...listOfStreams]));
                     SetNewStream('');
                 }
@@ -77,6 +90,8 @@ const StreamList = () => {
         }
         localStorage.setItem('rssStreamsArray', JSON.stringify(cutListOfStreams));
     };
+    const streams = useSelector(state => state.streams);
+   // console.log(streams);
     return (
         <div>
             <h2>List of streams</h2>
