@@ -100,7 +100,7 @@ const StreamList = () => {
             <span>Please, input new rss-stream</span> <input value={newStream} onChange={onInputChange}/>
             <button onClick={handleSubmit}>Add</button>
             <ul className={'list-of-streams'}>
-                    {streams.map((i, index) =>
+                    {store.getState().streamlist.map((i, index) =>
                     <Item key={index}>
                         <div>
                             <button onClick={() => removeStream(index)}>del</button>
