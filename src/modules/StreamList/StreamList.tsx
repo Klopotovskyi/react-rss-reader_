@@ -25,7 +25,7 @@ const StreamList = () => {
     }, []);
 
     const streams = useSelector(state => state.streams);
-   // console.log(streams);
+    console.log(streams);
     // useEffect(() => {
     //         let list = localStorage.getItem('rssStreamsArray');
     //         if (list === undefined || list === null || list === '[]') {
@@ -44,22 +44,22 @@ const StreamList = () => {
 
 
     const getStreamData = (url: string) => {
-        const baseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
-        axios.get(`${baseUrl}${url}`)
-            .then((response => {
-                    SetCurrentStreamFeed({
-                        streamTitle: response.data.feed.title,
-                        description: response.data.feed.description,
-                        url: response.data.feed.url,
-                        currentStreamItems: response.data.items
-                    });
-                    return response.data.status
-                })
-            )
-            .catch(error => {
-                console.warn(error);
-                return error;
-            });
+        // const baseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
+        // axios.get(`${baseUrl}${url}`)
+        //     .then((response => {
+        //             SetCurrentStreamFeed({
+        //                 streamTitle: response.data.feed.title,
+        //                 description: response.data.feed.description,
+        //                 url: response.data.feed.url,
+        //                 currentStreamItems: response.data.items
+        //             });
+        //             return response.data.status
+        //         })
+        //     )
+        //     .catch(error => {
+        //         console.warn(error);
+        //         return error;
+        //     });
     };
     const handleSubmit = () => {
         const baseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
