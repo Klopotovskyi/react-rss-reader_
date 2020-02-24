@@ -4,8 +4,9 @@ import {Item} from '../../components/Item/Item';
 import StreamView from '../StreamView/StreamView';
 import '../StreamList/StreamList.css'
 import {store} from '../../store';
-import {useSelector} from 'react-redux';
-
+import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {addStream, loadStreams} from './services/actions';
+import {streamlist} from './services/reducers';
 
 const StreamList = () => {
     const [listOfStreams, SetListOfStreams] = useState(['']);
@@ -16,22 +17,30 @@ const StreamList = () => {
         url: '',
         currentStreamItems: []
     });
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-            let list = localStorage.getItem('rssStreamsArray');
-            if (list === undefined || list === null || list === '[]') {
-                SetListOfStreams(["http://4pda.ru/feed/"]);
-                localStorage.setItem('rssStreamsArray', JSON.stringify(["http://4pda.ru/feed/"]));
-            } else {
-                store.dispatch({
-                    type: 'ADD_STREAM',
-                    value: JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]')
-                });
-                SetListOfStreams(JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]'));
-                //console.log(store.getState());
-            }
-        }, []
-    );
+    useEffect( () => {
+        dispatch(loadStreams());
+
+    }, []);
+
+    const streams = useSelector(state => state.streams);
+   // console.log(streams);
+    // useEffect(() => {
+    //         let list = localStorage.getItem('rssStreamsArray');
+    //         if (list === undefined || list === null || list === '[]') {
+    //             SetListOfStreams(["http://4pda.ru/feed/"]);
+    //             localStorage.setItem('rssStreamsArray', JSON.stringify(["http://4pda.ru/feed/"]));
+    //         } else {
+    //             store.dispatch({
+    //                 type: 'ADD_STREAM',
+    //                 value: JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]')
+    //             });
+    //             SetListOfStreams(JSON.parse(localStorage.getItem('rssStreamsArray') || '[""]'));
+    //             //console.log(store.getState());
+    //         }
+    //     }, []
+    // );
 
 
     const getStreamData = (url: string) => {
@@ -56,12 +65,8 @@ const StreamList = () => {
         const baseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
         axios.get(`${baseUrl}${newStream}`)
             .then(() => {
-
-                    store.dispatch({
-                        type: 'ADD_STREAM',
-                        value: newStream
-                    });
-                    localStorage.setItem('rssStreamsArray', JSON.stringify([newStream, ...store.getState().streamlist]));
+                    dispatch(addStream(newStream));
+                   /// localStorage.setItem('rssStreamsArray', JSON.stringify([newStream, ...store.getState().streamlist]));
                     SetNewStream('');
                 }
             )
@@ -75,18 +80,18 @@ const StreamList = () => {
     };
     const removeStream = (index: number) => {
 
-        let cutListOfStreams = [...listOfStreams];
-        cutListOfStreams.splice(index, 1);
-        SetListOfStreams(cutListOfStreams);
-        if (listOfStreams[index] === currentStreamFeed.url) {
-            SetCurrentStreamFeed({
-                streamTitle: '',
-                description: '',
-                url: '',
-                currentStreamItems: []
-            });
-        }
-        localStorage.setItem('rssStreamsArray', JSON.stringify(cutListOfStreams));
+        // let cutListOfStreams = [...listOfStreams];
+        // cutListOfStreams.splice(index, 1);
+        // SetListOfStreams(cutListOfStreams);
+        // if (listOfStreams[index] === currentStreamFeed.url) {
+        //     SetCurrentStreamFeed({
+        //         streamTitle: '',
+        //         description: '',
+        //         url: '',
+        //         currentStreamItems: []
+        //     });
+        // }
+        // localStorage.setItem('rssStreamsArray', JSON.stringify(cutListOfStreams));
     };
 
     return (
@@ -95,7 +100,7 @@ const StreamList = () => {
             <span>Please, input new rss-stream</span> <input value={newStream} onChange={onInputChange}/>
             <button onClick={handleSubmit}>Add</button>
             <ul className={'list-of-streams'}>
-                {store.getState().streamlist.map((i, index) =>
+                    {streams.map((i, index) =>
                     <Item key={index}>
                         <div>
                             <button onClick={() => removeStream(index)}>del</button>
@@ -106,7 +111,7 @@ const StreamList = () => {
                 )
                 }
             </ul>
-            <StreamView currentStreamFeed={currentStreamFeed}/>
+            < StreamView currentStreamFeed={currentStreamFeed}/>
         </div>
     )
 };
