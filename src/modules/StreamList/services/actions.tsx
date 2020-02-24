@@ -4,7 +4,7 @@ import {streamsRef} from '../../../firebase'
 
 export const loadStreams = () => ({
     [RSAA]: {
-        endpoint: 'https://rss-reader-676d2.firebaseio.com/users/jack/name.json',
+        endpoint: 'https://rss-reader-676d2.firebaseio.com/stream.json',
         method: 'GET',
         types: LOAD_STREAMS
     },

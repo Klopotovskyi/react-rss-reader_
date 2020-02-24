@@ -8,7 +8,7 @@ type Action = RSAAResultAction<string[]>;
 export const streamlist: Reducer<State> = (state: State = [], action) => {
 
     if (action.type === LOAD_STREAMS_SUCCESS && !action.error) {
-       console.log(action.payload);
+       console.log([...state, action.payload]);
         return [...state, action.payload];
     }
     if(action.type === ADD_STREAM_SUCCESS){
