@@ -27,14 +27,3 @@ export const removeStream = (index: number) => {
     })
 };
 
-
-// export const addItem = (id: string) => ({
-//     [RSAA]: {
-//         endpoint: 'http://localhost:3005/cart',
-//         method: 'POST',
-//         types: ADD_ITEM_TO_CART,
-//         body: {
-//             id
-//         }
-//     },
-// });

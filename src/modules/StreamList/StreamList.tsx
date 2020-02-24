@@ -2,48 +2,43 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import axios from 'axios';
 import {Item} from '../../components/Item/Item';
 import StreamView from '../StreamView/StreamView';
-import '../StreamList/StreamList.css'//
-//import {store} from '../../store';
+import '../StreamList/StreamList.css'
 import {useDispatch, useSelector} from 'react-redux';
 import {addStream, loadStreams, removeStream} from './services/actions';
-import {getStreaminfo} from '../StreamView/services/actions';
+import {getStreamInfo, resetStreamInfo} from '../StreamView/services/actions';
 
 const StreamList = () => {
-    const [newStream, SetNewStream] = useState('');
+    const [newStream, setNewStream] = useState('');
     const dispatch = useDispatch();
     const currentStreamFeed = useSelector(state => state.streamView);
-
+    const streams = useSelector(state => state.streamList);
 
     useEffect(() => {
         dispatch(loadStreams());
     }, []);
 
-    const streams = useSelector(state => state.streamList);
-
-    console.log(streams);
-
-
     const getStreamData = (url: string) => {
-        dispatch(getStreaminfo(url))
+        dispatch(getStreamInfo(url))
     };
     const handleSubmit = () => {
         const baseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
         axios.get(`${baseUrl}${newStream}`)
             .then(() => {
                     dispatch(addStream(newStream));
-                    SetNewStream('');
+                    setNewStream('');
                 }
             )
             .catch(() => {
-                SetNewStream('');
+                setNewStream('');
                 alert('This rss-feed URL NOT supported! Try another one');
             });
     };
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        SetNewStream(e.target.value);
+        setNewStream(e.target.value);
     };
     const removeItem = (index: number) => {
         dispatch(removeStream(index));
+        dispatch(resetStreamInfo());
     };
 
     return (
@@ -63,6 +58,7 @@ const StreamList = () => {
                 )
                 }
             </ul>
+            <strong>Please, choose some RSS feed or add new one</strong>
             < StreamView title={currentStreamFeed.title}
                          description={currentStreamFeed.description}
                          url={currentStreamFeed.url}

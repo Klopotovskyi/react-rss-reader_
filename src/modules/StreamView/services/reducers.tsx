@@ -9,7 +9,7 @@ export type State = {
     currentStreamItems: StreamItem []
 } ;
 const defaultStreamInfo = {
-    title: 'Please choose feed stream or add new',
+    title: '',
     description: '',
     url: '',
     currentStreamItems: []
@@ -25,6 +25,8 @@ export const streamView: Reducer<State> = (state: State = defaultStreamInfo, act
             currentStreamItems: action.payload.items
         };
     }
-
+    else if (action.type === 'RESET_STREAM_INFO') {
+        return defaultStreamInfo;
+    }
     return state;
 };
