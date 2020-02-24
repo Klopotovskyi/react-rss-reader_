@@ -5,28 +5,24 @@ import {StreamItem} from '../typedef';
 
 
 type Props = {
-    currentStreamFeed: {
-        url: string,
-        description: string,
-        streamTitle: string,
-        currentStreamItems: StreamItem []
-    }
+    title: string,
+    description: string,
+    url: string,
+    currentStreamItems: StreamItem []
 };
-
 
 const StreamView = (props: Props) => {
     const [activeIndex, setActiveIndex] = useState(-1);
     const handleClick = (index: number) => {
         setActiveIndex(index)
     };
-
-    useEffect(() => setActiveIndex(-1), [props.currentStreamFeed.currentStreamItems]);
+    useEffect(() => setActiveIndex(-1), [props.currentStreamItems]);
 
     return (
         <div>
-            <h3>{props.currentStreamFeed.streamTitle}</h3>
+            <h3>{props.title}</h3>
             <ul className={'stream-view-list'}>
-                {props.currentStreamFeed.currentStreamItems.map((i, index) =>
+                {props.currentStreamItems.map((i, index) =>
                     <Item key={index}>
                         <div style={activeIndex === index ? {background: '#e2efff'} : {}}>
                             <span><b>{i.title}</b></span>

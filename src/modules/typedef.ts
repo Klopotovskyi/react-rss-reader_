@@ -3,5 +3,5 @@ export type StreamItem = {
     pubDate: string,
     link: string,
     content: string,
-    author: string,
+    author: string
 }

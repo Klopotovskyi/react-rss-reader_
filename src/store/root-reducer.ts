@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux';
-import {streamlist} from '../modules/StreamList/services/reducers';
+import {streamList} from '../modules/StreamList/services/reducers';
+import {streamView} from '../modules/StreamView/services/reducers';
 
 export const rootReducer = combineReducers({
-    streamlist
+    streamList,
+    streamView
 });

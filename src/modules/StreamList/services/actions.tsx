@@ -1,6 +1,10 @@
 import {RSAA} from 'redux-api-middleware';
-import {ADD_STREAM, ADD_STREAM_SUCCESS, LOAD_STREAMS, LOAD_STREAMS_FAILURE, LOAD_STREAMS_SUCCESS} from './constants';
-import {streamsRef} from '../../../firebase'
+import {
+    ADD_STREAM_SUCCESS,
+    LOAD_STREAMS,
+    REMOVE_STREAM_SUCCESS
+} from './constants';
+//import {streamsRef} from '../../../firebase'
 
 export const loadStreams = () => ({
     [RSAA]: {
@@ -9,12 +13,20 @@ export const loadStreams = () => ({
         types: LOAD_STREAMS
     },
 });
-export const addStream = (url: string)=>{
-    return({
+export const addStream = (url: string) => {
+    return ({
         type: ADD_STREAM_SUCCESS,
         payload: url
     })
 };
+
+export const removeStream = (index: number) => {
+    return ({
+        type: REMOVE_STREAM_SUCCESS,
+        payload: index
+    })
+};
+
 
 // export const addItem = (id: string) => ({
 //     [RSAA]: {

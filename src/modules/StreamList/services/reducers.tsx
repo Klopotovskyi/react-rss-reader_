@@ -1,19 +1,18 @@
 import {Reducer} from 'redux';
-import {ADD_STREAM_SUCCESS, LOAD_STREAMS_FAILURE, LOAD_STREAMS_SUCCESS} from './constants';
-import {RSAAResultAction} from 'redux-api-middleware';
+import {ADD_STREAM_SUCCESS, LOAD_STREAMS_SUCCESS, REMOVE_STREAM_SUCCESS} from './constants';
 
 export type State = string [];
-type Action = RSAAResultAction<string[]>;
 
-export const streamlist: Reducer<State> = (state: State = [], action) => {
+export const streamList: Reducer<State> = (state: State = [], action) => {
 
     if (action.type === LOAD_STREAMS_SUCCESS && !action.error) {
-       console.log([...state, action.payload]);
-        return [...state, action.payload];
-    }
-    if(action.type === ADD_STREAM_SUCCESS){
-        console.log([...state, action.payload]);
+        return action.payload;
+    } else if (action.type === ADD_STREAM_SUCCESS) {
         return [...state, action.payload]
+    } else if (action.type === REMOVE_STREAM_SUCCESS) {
+        let stateSnapshot = [...state];
+        stateSnapshot.splice(action.payload, 1);
+        return stateSnapshot;
     }
 
     return state;
