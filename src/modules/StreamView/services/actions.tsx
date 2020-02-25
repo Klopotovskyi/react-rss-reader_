@@ -3,7 +3,6 @@ import {
     GET_STREAM_INFO, RESET_STREAM_INFO
 
 } from './constants';
-//import {streamsRef} from '../../../firebase'
 
 export const getStreamInfo = (url: string) => ({
     [RSAA]: {

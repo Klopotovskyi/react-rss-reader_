@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import axios from 'axios';
 import {Item} from '../../components/Item/Item';
-import StreamView from '../StreamView/StreamView';
 import '../StreamList/StreamList.css'
 import {useDispatch, useSelector} from 'react-redux';
 import {addStream, loadStreams, removeStream} from './services/actions';
@@ -26,7 +25,7 @@ const StreamList = () => {
         axios.get(`https://api.rss2json.com/v1/api.json?rss_url=${newStream}`)
             .then(() => {
                     dispatch(addStream(newStream));
-                    fetchStreamToBase(newStream);
+                fetchStreamToBaseAdd(newStream);
                     setNewStream('');
                 }
             )
@@ -36,8 +35,11 @@ const StreamList = () => {
             });
     };
 
-    const fetchStreamToBase = (url: string) => {
-        streamsRef.push().set(url);
+    const fetchStreamToBaseAdd = (url: string) => {
+        streamsRef.child(`${streams.length}`).set(url);
+    };
+    const fetchStreamToBaseRemove = () => {
+        streamsRef.set(streams);
     };
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewStream(e.target.value);
@@ -45,6 +47,7 @@ const StreamList = () => {
     const removeItem = (index: number) => {
         dispatch(removeStream(index));
         dispatch(resetStreamInfo());
+       fetchStreamToBaseRemove();
     };
 
     return (

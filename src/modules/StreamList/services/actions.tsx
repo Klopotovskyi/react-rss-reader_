@@ -5,7 +5,6 @@ import {
     REMOVE_STREAM_SUCCESS
 } from './constants';
 
-import {FETCH_STREAM} from '../../StreamView/services/constants';
 
 export const loadStreams = () => ({
     [RSAA]: {
