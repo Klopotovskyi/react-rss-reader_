@@ -6,11 +6,12 @@ import '../StreamList/StreamList.css'
 import {useDispatch, useSelector} from 'react-redux';
 import {addStream, loadStreams, removeStream} from './services/actions';
 import {getStreamInfo, resetStreamInfo} from '../StreamView/services/actions';
+import {streamsRef} from '../../firebase';
+
 
 const StreamList = () => {
     const [newStream, setNewStream] = useState('');
     const dispatch = useDispatch();
-    const currentStreamFeed = useSelector(state => state.streamView);
     const streams = useSelector(state => state.streamList);
 
     useEffect(() => {
@@ -20,11 +21,12 @@ const StreamList = () => {
     const getStreamData = (url: string) => {
         dispatch(getStreamInfo(url))
     };
+
     const handleSubmit = () => {
-        const baseUrl = 'https://api.rss2json.com/v1/api.json?rss_url=';
-        axios.get(`${baseUrl}${newStream}`)
+        axios.get(`https://api.rss2json.com/v1/api.json?rss_url=${newStream}`)
             .then(() => {
                     dispatch(addStream(newStream));
+                    fetchStreamToBase(newStream);
                     setNewStream('');
                 }
             )
@@ -32,6 +34,10 @@ const StreamList = () => {
                 setNewStream('');
                 alert('This rss-feed URL NOT supported! Try another one');
             });
+    };
+
+    const fetchStreamToBase = (url: string) => {
+        streamsRef.push().set(url);
     };
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewStream(e.target.value);
@@ -59,10 +65,7 @@ const StreamList = () => {
                 }
             </ul>
             <strong>Please, choose some RSS feed or add new one</strong>
-            < StreamView title={currentStreamFeed.title}
-                         description={currentStreamFeed.description}
-                         url={currentStreamFeed.url}
-                         currentStreamItems={currentStreamFeed.currentStreamItems}/>
+
         </div>
     )
 };

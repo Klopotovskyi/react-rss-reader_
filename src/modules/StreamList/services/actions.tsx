@@ -4,7 +4,8 @@ import {
     LOAD_STREAMS,
     REMOVE_STREAM_SUCCESS
 } from './constants';
-//import {streamsRef} from '../../../firebase'
+
+import {FETCH_STREAM} from '../../StreamView/services/constants';
 
 export const loadStreams = () => ({
     [RSAA]: {

@@ -3,6 +3,7 @@ import './App.css';
 import StreamList from './modules/StreamList/StreamList';
 import {Provider} from 'react-redux';
 import {store} from './store'
+import StreamView from './modules/StreamView/StreamView';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
         <Provider store={store}>
             <div className="App">
                 <StreamList/>
+                <StreamView/>
             </div>
         </Provider>
     );
