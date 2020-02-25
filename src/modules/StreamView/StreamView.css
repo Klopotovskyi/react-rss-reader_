@@ -1,3 +1,10 @@
 .stream-view-list{
-    list-style-type: circle;
+    list-style-type: none;
+}
+.stream-view-list > li {
+    border: 1px dotted #576cbe;
+}
+.stream-view-container{
+    width: 60%;
+    border: 3px inset #576cbe;
 }

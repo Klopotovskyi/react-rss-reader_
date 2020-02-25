@@ -1,3 +1,14 @@
 .list-of-streams{
     list-style-type: none;
 }
+.stream-list-container{
+    width: 40%;
+    background-color: #bbe3ff;
+}
+.list-item,  .input-field{
+    display: flex;
+    justify-content: space-between;
+}
+.remove-button{
+    background-color: #ff8579;
+}
