@@ -12,6 +12,7 @@ export const streamList: Reducer<State> = (state: State = [], action) => {
     } else if (action.type === REMOVE_STREAM_SUCCESS) {
         let stateSnapshot = [...state];
         stateSnapshot.splice(action.payload, 1);
+        //console.log(stateSnapshot);
         return stateSnapshot;
     }
 

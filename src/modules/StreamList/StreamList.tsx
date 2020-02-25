@@ -10,6 +10,7 @@ import {streamsRef} from '../../firebase';
 
 const StreamList = () => {
     const [newStream, setNewStream] = useState('');
+    const [disableButton, setDisableButton] = useState(true);
     const dispatch = useDispatch();
     const streams = useSelector(state => state.streamList);
 
@@ -25,21 +26,20 @@ const StreamList = () => {
         axios.get(`https://api.rss2json.com/v1/api.json?rss_url=${newStream}`)
             .then(() => {
                     dispatch(addStream(newStream));
-                fetchStreamToBaseAdd(newStream);
+                    setDisableButton(false);
                     setNewStream('');
                 }
             )
             .catch(() => {
                 setNewStream('');
+                setDisableButton(false);
                 alert('This rss-feed URL NOT supported! Try another one');
             });
     };
 
-    const fetchStreamToBaseAdd = (url: string) => {
-        streamsRef.child(`${streams.length}`).set(url);
-    };
-    const fetchStreamToBaseRemove = () => {
+    const sync = () => {
         streamsRef.set(streams);
+        setDisableButton(true);
     };
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewStream(e.target.value);
@@ -47,12 +47,15 @@ const StreamList = () => {
     const removeItem = (index: number) => {
         dispatch(removeStream(index));
         dispatch(resetStreamInfo());
-       fetchStreamToBaseRemove();
+        setDisableButton(false);
     };
 
     return (
         <div>
             <h2>List of streams</h2>
+            <div>
+                <button onClick={() => sync()} disabled={disableButton}>Save current list</button>
+            </div>
             <span>Please, input new rss-stream</span> <input value={newStream} onChange={onInputChange}/>
             <button onClick={handleSubmit}>Add</button>
             <ul className={'list-of-streams'}>
