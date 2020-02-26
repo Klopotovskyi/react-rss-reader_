@@ -1,19 +1,29 @@
 import React from 'react';
 import './App.css';
-import StreamList from './modules/StreamList/StreamList';
 import {Provider} from 'react-redux';
 import {store} from './store'
-import StreamView from './modules/StreamView/StreamView';
+import About from './modules/About/About';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import Reader from './modules/Reader/Reader';
+import Homepage from './modules/Homepage/Homepage';
+import Navbar from './modules/Navbar/Navbar';
 
 function App() {
-
     return (
-        <Provider store={store}>
-            <div className="App">
-                <StreamList/>
-                <StreamView/>
-            </div>
-        </Provider>
+        <BrowserRouter>
+            <Provider store={store}>
+                <Navbar/>
+                <Switch>
+                    <Route path='/home' component={Homepage}/>
+                    <Route path='/reader' component={Reader}/>
+                    <Route path='/about' component={About}/>
+                    <Redirect to='/home'/>
+                    <Route path='*'>
+                        404 Not found
+                    </Route>
+                </Switch>
+            </Provider>
+        </BrowserRouter>
     );
 }
 
