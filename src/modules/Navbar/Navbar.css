@@ -1,0 +1,15 @@
+.nav-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-start;
+}
+.nav-list>li{
+    display: block;
+    box-sizing: border-box;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.nav-list>li>a {
+    text-transform: uppercase;
+    color: white;
+}

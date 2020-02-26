@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import {Provider} from 'react-redux';
 import {store} from './store'
 import About from './modules/About/About';
@@ -12,16 +11,18 @@ function App() {
     return (
         <BrowserRouter>
             <Provider store={store}>
-                <Navbar/>
-                <Switch>
-                    <Route path='/home' component={Homepage}/>
-                    <Route path='/reader' component={Reader}/>
-                    <Route path='/about' component={About}/>
-                    <Redirect to='/home'/>
-                    <Route path='*'>
-                        404 Not found
-                    </Route>
-                </Switch>
+                <div>
+                    <Navbar/>
+                    <Switch>
+                        <Route path='/home' component={Homepage}/>
+                        <Route path='/reader' component={Reader}/>
+                        <Route path='/about' component={About}/>
+                        <Redirect to='/home'/>
+                        <Route path='*'>
+                            404 Not found
+                        </Route>
+                    </Switch>
+                </div>
             </Provider>
         </BrowserRouter>
     );
