@@ -11,3 +11,6 @@
 .remove-button{
     background-color: #ff8579;
 }
+.sync-button{
+    display: block;
+}

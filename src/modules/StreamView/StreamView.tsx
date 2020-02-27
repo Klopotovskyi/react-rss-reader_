@@ -22,7 +22,7 @@ const StreamView = () => {
                             <div style={activeIndex === index ? {background: '#e2efff'} : {}}>
                                 <span><b>{i.title}</b></span>
                                 <button style={activeIndex === index ? {display: 'none'} : {display: 'block'}}
-                                        onClick={() => handleClick(index)}>review
+                                        onClick={() => handleClick(index)} className={'review-btn'}>review
                                 </button>
                                 <p>Publication Date: {i.pubDate}</p>
                                 <div

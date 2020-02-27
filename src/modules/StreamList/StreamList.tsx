@@ -51,36 +51,32 @@ const StreamList = () => {
     };
 
     return (
-        <>
-            <div className={'stream-list-container'}>
-                <h2>List of streams</h2>
-                <div className={'input-field'}>
-                    <span>Please, input new rss-stream</span>
-                    <div>
-                        <input value={newStream} onChange={onInputChange} placeholder={'enter your RSS feed URL'}/>
-                        <button onClick={handleSubmit}>Add</button>
-                    </div>
-                </div>
-                <ul className={'list-of-streams'}>
-                    {streams.map((i, index) =>
-                        <Item key={index}>
-                            <div className={'list-item'}>
-                                <span>{i}</span>
-                                <div>
-                                    <button onClick={() => getStreamData(i)}>Get News</button>
-                                    <button onClick={() => removeItem(index)} className={'remove-button'}>X</button>
-                                </div>
-                            </div>
-                        </Item>
-                    )
-                    }
-                </ul>
-                <strong>Please, choose some RSS feed or add new one</strong>
+        <div className={'stream-list-container'}>
+            <h2>List of streams</h2>
+            <div className={'input-field'}>
+                <span>Please, input new rss-stream</span>
                 <div>
-                    <button onClick={() => sync()} disabled={disableButton}>Save current list</button>
+                    <input value={newStream} onChange={onInputChange} placeholder={'enter your RSS feed URL'}/>
+                    <button className={'add-stream-btn'} onClick={handleSubmit}>Add</button>
                 </div>
             </div>
-        </>
+            <ul className={'list-of-streams'}>
+                {streams.map((i, index) =>
+                    <Item key={index}>
+                        <div className={'list-item'}>
+                            <span>{i}</span>
+                            <div>
+                                <button onClick={() => getStreamData(i)}>Get News</button>
+                                <button onClick={() => removeItem(index)} className={'remove-button'}>X</button>
+                            </div>
+                        </div>
+                    </Item>
+                )
+                }
+            </ul>
+            <p>Please, choose some RSS feed or add new one</p>
+            <button className={'sync-button'} onClick={() => sync()} disabled={disableButton}>Save current list</button>
+        </div>
     )
 };
 
