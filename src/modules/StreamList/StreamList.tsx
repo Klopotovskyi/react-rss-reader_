@@ -47,7 +47,8 @@ const StreamList = () => {
     const removeItem = (index: number) => {
         dispatch(removeStream(index));
         dispatch(resetStreamInfo());
-        setDisableButton(false);
+        streams.length !== 1 ? setDisableButton(false): setDisableButton(true);
+
     };
 
     return (

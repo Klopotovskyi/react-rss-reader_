@@ -6,21 +6,13 @@ import configureMockStore from 'redux-mock-store'
 import {apiMiddleware, RSAA} from 'redux-api-middleware'
 import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
-
-import {
-    ADD_STREAM_SUCCESS,
-    LOAD_STREAMS_FAILURE,
-    LOAD_STREAMS_REQUEST,
-    LOAD_STREAMS_SUCCESS
-} from '../services/constants';
-import {addStream} from '../services/actions';
+import '../services/actions'
+import {LOAD_STREAMS_FAILURE, LOAD_STREAMS_REQUEST, LOAD_STREAMS_SUCCESS} from '../services/constants';
 
 const middlewares = [thunk, apiMiddleware];
 const mockStore = configureMockStore(middlewares);
 
-// jest.mock('../services/actions', () => ({
-//     addStream: jest.fn()
-// }));
+
 describe('should dispatch LOAD_STREAMS_SUCCESS when loadStreams is called', () => {
     const body = ["https://fakty.ua/rss_feed/science",
         "https://www.radiosvoboda.org/api/zrqiteuuir/",
@@ -65,16 +57,13 @@ describe('should dispatch LOAD_STREAMS_SUCCESS when loadStreams is called', () =
                 }
             }).then(() => {
                 const wrapper = mount(<Provider store={store}><StreamList/></Provider>);
-                wrapper.find('.add-stream-btn').simulate('click');
+
                 wrapper.find('input').simulate('change', {
                     currentTarget: {
-                        value: 'newStream'
+                        value: 'http://4pda.ru/feed/'
                     }
                 });
-                expect(addStream).toHaveBeenCalledWith({
-                    payload: 'newStream'
-                });
-
+                wrapper.find('.add-stream-btn').simulate('click');
                 expect(wrapper.find('.list-of-streams').children().length).toEqual(4);
                 fetchMock.reset();
                 fetchMock.restore();
